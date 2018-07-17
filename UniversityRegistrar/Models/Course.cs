@@ -110,7 +110,34 @@ namespace UniversityRegistrar.Models
     }
     public static Course Find(int id)
     {
-      Course foundCourse = new Course("null", "null");
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM courses WHERE id = @CourseId;";
+
+      cmd.Parameters.Add(new MySqlParameter("@CourseId", id));
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      int CourseId = 0;
+      string CourseName = "";
+      string CourseCode = "";
+
+      while(rdr.Read())
+      {
+        CourseId = rdr.GetInt32(0);
+        CourseName = rdr.GetString(1);
+        CourseCode = rdr.GetString(2);
+      }
+
+      Course foundCourse = new Course(CourseName, CourseCode, CourseId);
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
       return foundCourse;
     }
   }
