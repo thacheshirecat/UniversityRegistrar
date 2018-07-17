@@ -44,25 +44,26 @@ namespace UniversityRegistrar.Models
         return (IdEquality && NameEquality && CodeEquality);
       }
     }
-    public override int GetHasCode()
+    public override int GetHashCode()
     {
-      this.GetName().GetHasCode();
+      return this.GetName().GetHashCode();
     }
     public void Save()
     {
 
     }
-    public List<Student> GetAll()
+    public static List<Course> GetAll()
     {
-
+      List<Course> nullList = new List<Course>{};
+      return nullList;
     }
-    public void DeleteAll()
+    public static void DeleteAll()
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
 
-      var cmd = con.CreateCommand() as MySqlCommand;
-      cmd.CommandText() = @"DELETE FROM courses; DELETE FROM students_courses;"
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM courses; DELETE FROM students_courses;";
       cmd.ExecuteNonQuery();
 
       conn.Close();
