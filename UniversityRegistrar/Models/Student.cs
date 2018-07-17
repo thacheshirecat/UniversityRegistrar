@@ -50,12 +50,48 @@ namespace UniversityRegistrar.Models
     }
     public void Save()
     {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
 
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO students (name, enrollment) VALUES (@StudentName, @StudentEnrollment)";
+
+      cmd.Parameters.Add(new MySqlParameter("@StudentName", _name));
+      cmd.Parameters.Add(new MySqlParameter("@StudentEnrollment", _enrollment));
+      cmd.ExecuteNonQuery();
+      _id = (int) cmd.LastInsertedId;
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
     }
     public static List<Student> GetAll()
     {
-      List<Student> nullList = new List<Student>{};
-      return nullList;
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM students;";
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      List<Student> allStudents = new List<Student>{};
+      while(rdr.Read())
+      {
+        int StudentId = rdr.GetInt32(0);
+        string StudentName = rdr.GetString(1);
+        string StudentEnrollment = rdr.GetString(2);
+        Student newStudent = new Student(StudentName, StudentEnrollment, StudentId);
+        allStudents.Add(newStudent);
+      }
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+      return allStudents;
     }
     public static void DeleteAll()
     {
