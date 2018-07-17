@@ -58,7 +58,18 @@ namespace UniversityRegistrar.Models
     }
     public void DeleteAll()
     {
-      
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = con.CreateCommand() as MySqlCommand;
+      cmd.CommandText() = @"DELETE FROM students; DELETE FROM students_courses;"
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
     }
 
 
