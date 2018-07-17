@@ -54,5 +54,31 @@ namespace UniversityRegistrar.Tests
 
       Assert.AreEqual(testStudent1, resultStudent);
     }
+    [TestMethod]
+    public void AddCourse_CorrectlyAttatchesCourseToStudent_Course()
+    {
+      Student testStudent1 = new Student("Tom", "7/1/2017");
+      Course testCourse1 = new Course("Math", "MA101");
+      List<Course> testList = new List<Course> {testCourse1};
+
+      testStudent1.AddCourse(testCourse1);
+      List<Course> resultList = testStudent1.GetAllCourses();
+
+      CollectionAssert.AreEqual(testList, resultList);
+    }
+    [TestMethod]
+    public void GetAllCourses_ReturnsAllCoursesAttachedToStudent_CourseList()
+    {
+      Student testStudent1 = new Student("Tom", "7/1/2017");
+      Course testCourse1 = new Course("Math", "MA101");
+      Course testCourse2 = new Course("Science", "SCI101");
+      List<Course> testList = new List<Course> {testCourse1, testCourse2};
+
+      testStudent1.AddCourse(testCourse1);
+      testStudent1.AddCourse(testCourse2);
+      List<Course> resultList = testStudent1.GetAllCourses();
+
+      CollectionAssert.AreEqual(testList, resultList);
+    }
   }
 }

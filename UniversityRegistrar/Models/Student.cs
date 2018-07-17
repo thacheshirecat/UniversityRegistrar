@@ -140,6 +140,30 @@ namespace UniversityRegistrar.Models
       }
       return foundStudent;
     }
+    public void AddCourse(Course newCourse)
+    {
+      // MySqlConnection conn = DB.Connection();
+      // conn.Open();
+      //
+      // var cmd = conn.CreateCommand() as MySqlCommand;
+      // cmd.CommandText = @"INSERT INTO students_courses (student_id, course_id) VALUES (@StudentId, @CourseId);";
+      //
+      // cmd.Parameters.Add(new MySqlParameter("@StudentId", id));
+      // cmd.Parameters.Add(new MySqlParameter("@CourseId", newCourse.GetId()));
+      //
+      // cmd.ExecuteNonQuery();
+      //
+      // conn.Close();
+      // if(conn != null)
+      // {
+      //   conn.Dispose();
+      // }
+    }
+    public List<Course> GetAllCourses()
+    {
+      List<Course> allCourses = new List<Course> {};
+      return allCourses;
+    }
 
 
   }
