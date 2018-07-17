@@ -14,7 +14,7 @@ namespace UniversityRegistrar.Tests
     }
     public void Dispose()
     {
-      Student.DeleteAll();
+      Course.DeleteAll();
       Course.DeleteAll();
     }
     [TestMethod]
@@ -41,6 +41,18 @@ namespace UniversityRegistrar.Tests
       List<Course> testList = Course.GetAll();
 
       CollectionAssert.AreEqual(resultList, testList);
+    }
+    [TestMethod]
+    public void Find_ReturnsCorrectCourse_Course()
+    {
+      Course testCourse1 = new Course("Math", "MA101");
+      Course testCourse2 = new Course("Science", "SCI101");
+
+      testCourse1.Save();
+      testCourse2.Save();
+      Course resultCourse = Course.Find(testCourse1.GetId());
+
+      Assert.AreEqual(testCourse1, resultCourse);
     }
   }
 }

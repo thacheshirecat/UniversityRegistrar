@@ -108,6 +108,25 @@ namespace UniversityRegistrar.Models
         conn.Dispose();
       }
     }
+    public static Student Find(int id)
+    {
+      // MySqlConnection conn = DB.Connection();
+      // conn.Open();
+      //
+      // var cmd = conn.CreateCommand() as MySqlCommand;
+      // cmd.CommandText = @"SELECT * FROM students WHERE id = @StudentId;";
+      //
+      // var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      // while(rdr.Read())
+      // {
+      //   int StudentId = rdr.GetInt32(0);
+      //   string StudentName = rdr.GetString(1);
+      //   string StudentEnrollment = rdr.GetString(2);
+      //   Student foundStudent = new Student(StudentName, StudentEnrollment, StudentId);
+      // }
+      Student foundStudent = new Student("null", "null");
+      return foundStudent;
+    }
 
 
   }

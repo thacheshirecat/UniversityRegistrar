@@ -42,5 +42,17 @@ namespace UniversityRegistrar.Tests
 
       CollectionAssert.AreEqual(resultList, testList);
     }
+    [TestMethod]
+    public void Find_ReturnsCorrectStudent_Student()
+    {
+      Student testStudent1 = new Student("Tom", "7/1/2017");
+      Student testStudent2 = new Student("Max", "7/14/2017");
+
+      testStudent1.Save();
+      testStudent2.Save();
+      Student resultStudent = Student.Find(testStudent1.GetId());
+
+      Assert.AreEqual(testStudent1, resultStudent);
+    }
   }
 }

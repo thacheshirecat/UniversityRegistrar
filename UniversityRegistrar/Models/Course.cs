@@ -108,6 +108,10 @@ namespace UniversityRegistrar.Models
         conn.Dispose();
       }
     }
-
+    public static Course Find(int id)
+    {
+      Course foundCourse = new Course("null", "null");
+      return foundCourse;
+    }
   }
 }
