@@ -58,7 +58,9 @@ namespace UniversityRegistrar.Tests
     public void AddCourse_CorrectlyAttatchesCourseToStudent_Course()
     {
       Student testStudent1 = new Student("Tom", "7/1/2017");
+      testStudent1.Save();
       Course testCourse1 = new Course("Math", "MA101");
+      testCourse1.Save();
       List<Course> testList = new List<Course> {testCourse1};
 
       testStudent1.AddCourse(testCourse1);
@@ -70,8 +72,11 @@ namespace UniversityRegistrar.Tests
     public void GetAllCourses_ReturnsAllCoursesAttachedToStudent_CourseList()
     {
       Student testStudent1 = new Student("Tom", "7/1/2017");
+      testStudent1.Save();
       Course testCourse1 = new Course("Math", "MA101");
+      testCourse1.Save();
       Course testCourse2 = new Course("Science", "SCI101");
+      testCourse2.Save();
       List<Course> testList = new List<Course> {testCourse1, testCourse2};
 
       testStudent1.AddCourse(testCourse1);

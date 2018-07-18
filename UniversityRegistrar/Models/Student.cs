@@ -91,6 +91,7 @@ namespace UniversityRegistrar.Models
       {
         conn.Dispose();
       }
+
       return allStudents;
     }
     public static void DeleteAll()
@@ -138,30 +139,59 @@ namespace UniversityRegistrar.Models
       {
         conn.Dispose();
       }
+
       return foundStudent;
     }
     public void AddCourse(Course newCourse)
     {
-      // MySqlConnection conn = DB.Connection();
-      // conn.Open();
-      //
-      // var cmd = conn.CreateCommand() as MySqlCommand;
-      // cmd.CommandText = @"INSERT INTO students_courses (student_id, course_id) VALUES (@StudentId, @CourseId);";
-      //
-      // cmd.Parameters.Add(new MySqlParameter("@StudentId", id));
-      // cmd.Parameters.Add(new MySqlParameter("@CourseId", newCourse.GetId()));
-      //
-      // cmd.ExecuteNonQuery();
-      //
-      // conn.Close();
-      // if(conn != null)
-      // {
-      //   conn.Dispose();
-      // }
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO students_courses (student_id, course_id) VALUES (@StudentId, @CourseId);";
+
+      cmd.Parameters.Add(new MySqlParameter("@StudentId", _id));
+      cmd.Parameters.Add(new MySqlParameter("@CourseId", newCourse.GetId()));
+
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
     }
     public List<Course> GetAllCourses()
     {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT courses.* FROM students
+                          JOIN students_courses ON (students.id = students_courses.student_id)
+                          JOIN courses ON (students_courses.course_id = courses.id)
+                          WHERE students.id = @StudentId;";
+
+      cmd.Parameters.Add(new MySqlParameter("@StudentId", _id));
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
       List<Course> allCourses = new List<Course> {};
+
+      while(rdr.Read())
+      {
+        int CourseId = rdr.GetInt32(0);
+        string CourseName = rdr.GetString(1);
+        string CourseCode = rdr.GetString(2);
+        Course newCourse = new Course(CourseName, CourseCode, CourseId);
+        allCourses.Add(newCourse);
+      }
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+
       return allCourses;
     }
 
