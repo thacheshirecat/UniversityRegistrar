@@ -14,7 +14,7 @@ namespace UniversityRegistrar.Tests
     }
     public void Dispose()
     {
-      Course.DeleteAll();
+      Student.DeleteAll();
       Course.DeleteAll();
     }
     [TestMethod]
@@ -53,6 +53,39 @@ namespace UniversityRegistrar.Tests
       Course resultCourse = Course.Find(testCourse1.GetId());
 
       Assert.AreEqual(testCourse1, resultCourse);
+    }
+    [TestMethod]
+    public void AddStudent_CorrectlyAttatchesStudentToCourse_StudentList()
+    {
+      Course testCourse = new Course("Pre-Corn", "PRCN100");
+      testCourse.Save();
+      Student testStudent1 = new Student("Tom", "7/1/2017");
+      testStudent1.Save();
+
+      testCourse.AddStudent(testStudent1);
+      List<Student> testList = testCourse.GetAllStudents();
+      List<Student> resultList = new List<Student> {testStudent1};
+
+      CollectionAssert.AreEqual(resultList, testList);
+    }
+    [TestMethod]
+    public void GetAllStudents_ReturnsAllStudentsAttachedToCourse_StudentList()
+    {
+      Course testCourse = new Course("Pre-Corn", "PRCN100");
+      testCourse.Save();
+      Student testStudent1 = new Student("Tom", "7/1/2017");
+      Student testStudent2 = new Student("Max", "7/14/2017");
+      Student testStudent3 = new Student("Scavvy", "6/31/2017");
+      testStudent1.Save();
+      testStudent2.Save();
+      testStudent3.Save();
+
+      testCourse.AddStudent(testStudent1);
+      testCourse.AddStudent(testStudent2);
+      List<Student> testList = testCourse.GetAllStudents();
+      List<Student> resultList = new List<Student> {testStudent1, testStudent2};
+
+      CollectionAssert.AreEqual(resultList, testList);
     }
   }
 }

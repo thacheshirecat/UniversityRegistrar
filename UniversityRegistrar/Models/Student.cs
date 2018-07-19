@@ -194,7 +194,45 @@ namespace UniversityRegistrar.Models
 
       return allCourses;
     }
+    public void Delete()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
 
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM students WHERE id = @StudentId;DELETE FROM students_courses WHERE student_id = @StudentId;";
 
+      cmd.Parameters.Add(new MySqlParameter("@StudentId", _id));
+
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+    public void Update(string newName, string newEnrollment)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE students SET name = @StudentName, enrollment = @StudentEnrollment WHERE id = @StudentId;";
+
+      cmd.Parameters.Add(new MySqlParameter("@StudentId", _id));
+      cmd.Parameters.Add(new MySqlParameter("@StudentName", newName));
+      cmd.Parameters.Add(new MySqlParameter("@StudentEnrollment", newEnrollment));
+
+      cmd.ExecuteNonQuery();
+      _name = newName;
+      _enrollment = newEnrollment;
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+    }
   }
 }

@@ -140,5 +140,75 @@ namespace UniversityRegistrar.Models
       }
       return foundCourse;
     }
+    public void AddStudent(Student newStudent)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO students_courses (student_id, course_id) VALUES (@StudentId, @CourseId);";
+
+      cmd.Parameters.Add(new MySqlParameter("@StudentId", newStudent.GetId()));
+      cmd.Parameters.Add(new MySqlParameter("@CourseId", _id));
+
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+    public List<Student> GetAllStudents()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT students.* FROM courses
+                          JOIN students_courses ON (courses.id = students_courses.course_id)
+                          JOIN students ON (students_courses.student_id = students.id)
+                          WHERE courses.id = @CourseId;";
+
+      cmd.Parameters.Add(new MySqlParameter("@CourseId", _id));
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<Student> allStudents = new List<Student> {};
+
+      while(rdr.Read())
+      {
+        int StudentId = rdr.GetInt32(0);
+        string StudentName = rdr.GetString(1);
+        string StudentEnrollment = rdr.GetString(2);
+        Student newStudent = new Student(StudentName, StudentEnrollment, StudentId);
+        allStudents.Add(newStudent);
+      }
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+
+      return allStudents;
+    }
+    public void Delete()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM courses WHERE id = @CourseId;DELETE FROM students_courses WHERE course_id = @CourseId;";
+
+      cmd.Parameters.Add(new MySqlParameter("@CourseId", _id));
+
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+    }
   }
 }

@@ -6,5 +6,30 @@
 <body>
   <div class="container">
     <h1>Bork University Registrar</h1>
+    <h2>@Model["course"].GetName()</h2>
+    <h3>Students Currently taking Course</h3>
+    @foreach(var student in @Model["students"])
+    {
+      <p>@student.GetName() | Enrolled on: @student.GetEnrollment()</p>
+    }
+    <form action="/Course/AddStudent/" method="post">
+      <label for="newstudent">Select Student to Add to this Course</label>
+      <select name="newstudent" required>
+        @foreach(var student in @Model["allstudents"])
+        {
+          <option value="@student.GetId()">@student.GetName()</option>
+        }
+      </select>
+      <select name="courseid" id="hiddencourseid">
+        <option value="@Model["course"].GetId()">@Model["course"].GetName()</option>
+      </select>
+      <button type="click" class="btn btn-success">Add Student</button>
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p><a href="/Courses">Back</a></p>
+    <p><a href="/">Home</a></p>
   </div>
 </body>

@@ -27,7 +27,6 @@ namespace UniversityRegistrar.Tests
       List<Student> testList = Student.GetAll();
 
       CollectionAssert.AreEqual(resultList, testList);
-
     }
     [TestMethod]
     public void GetAll_ReturnsAllStudentsInDB_StudentList()
@@ -55,7 +54,7 @@ namespace UniversityRegistrar.Tests
       Assert.AreEqual(testStudent1, resultStudent);
     }
     [TestMethod]
-    public void AddCourse_CorrectlyAttatchesCourseToStudent_Course()
+    public void AddCourse_CorrectlyAttatchesCourseToStudent_CourseList()
     {
       Student testStudent1 = new Student("Tom", "7/1/2017");
       testStudent1.Save();
@@ -84,6 +83,35 @@ namespace UniversityRegistrar.Tests
       List<Course> resultList = testStudent1.GetAllCourses();
 
       CollectionAssert.AreEqual(testList, resultList);
+    }
+    [TestMethod]
+    public void Delete_DeletesOnlySpecifiedStudent_StudentList()
+    {
+      Student testStudent1 = new Student("Tom", "7/1/2017");
+      Student testStudent2 = new Student("Max", "7/14/2017");
+
+      testStudent1.Save();
+      testStudent2.Save();
+      testStudent2.Delete();
+      List<Student> testList = new List<Student> {testStudent1};
+      List<Student> resultList = Student.GetAll();
+
+      CollectionAssert.AreEqual(testList, resultList);
+    }
+    [TestMethod]
+    public void Update_CorrectlyUpdatesStudentName_String()
+    {
+      Student testStudent = new Student("Tom", "7/1/2017");
+      testStudent.Save();
+      Student resultStudent = new Student("Max", "7/14/2017");
+      resultStudent.Save();
+
+      testStudent.Update("Max", "7/1/2017");
+      Student controlStudent = Student.Find(testStudent.GetId());
+      string test = controlStudent.GetName();
+      string result = resultStudent.GetName();
+
+      Assert.AreEqual(result, test);
     }
   }
 }

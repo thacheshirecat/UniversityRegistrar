@@ -23,9 +23,9 @@ namespace UniversityRegistrar.Controllers
 
       newStudent.Save();
 
-      return View("Success");
+      return View("Index", Student.GetAll());
     }
-    [HttpGet("/STudents/{id}/View")]
+    [HttpGet("/Students/{id}/View")]
     public ActionResult ViewStudent(int id)
     {
       Dictionary<string, object> model = new Dictionary<string, object>();
