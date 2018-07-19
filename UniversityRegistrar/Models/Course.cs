@@ -210,5 +210,27 @@ namespace UniversityRegistrar.Models
         conn.Dispose();
       }
     }
+    public void Update(string newName, string newCode)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE courses SET name = @CourseName, code = @CourseCode WHERE id = @CourseId;";
+
+      cmd.Parameters.Add(new MySqlParameter("@CourseId", _id));
+      cmd.Parameters.Add(new MySqlParameter("@CourseName", newName));
+      cmd.Parameters.Add(new MySqlParameter("@CourseCode", newCode));
+
+      cmd.ExecuteNonQuery();
+      _name = newName;
+      _enrollment = newEnrollment;
+
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+    }
   }
 }
