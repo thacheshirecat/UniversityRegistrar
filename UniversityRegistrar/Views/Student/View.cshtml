@@ -1,0 +1,36 @@
+<head>
+    <title>Bork University</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Bork University Registrar</h1>
+    <h2>@Model["student"].GetName()</h2>
+    <h3>Date of Enrollment: @Model["student"].GetEnrollment()</h3>
+    <p>Courses</p>
+    @foreach(var course in @Model["courses"])
+    {
+      <p>@course.GetName() | @course.GetCode()</p>
+    }
+    <form action="/Student/AddCourse/" method="post">
+      <label for="newcourse">Select Course to Add</label>
+      <select name="newcourse" required>
+        @foreach(var course in @Model["allcourses"])
+        {
+          <option value="@course.GetId()">@course.GetName() | @course.GetCode()</option>
+        }
+      </select>
+      <select name="studentid" id="hiddenstudentid">
+        <option value="@Model["student"].GetId()">@Model["student"].GetName()</option>
+      </select>
+      <button type="click" class="btn btn-success">Add Course</button>
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p><a href="/Students">Back</a></p>
+    <p><a href="/">Home</a></p>
+  </div>
+</body>

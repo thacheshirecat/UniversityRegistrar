@@ -1,0 +1,22 @@
+<head>
+    <title>Bork University</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Bork University Registrar</h1>
+    <h2>Add New Student</h2>
+
+    <form action="/Students/Success" method="post">
+      <label for="newname">Student Name</label>
+      <input name="newname" type="text" class="form-control">
+      <label for="newenrollment">Date of Enrollment (MM/DD/YYY)</label>
+      <input name="newenrollment" type="text" class="form-control">
+      <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+
+    <p><a href="/Students">Back</a></p>
+    <p><a href="/">Home</a></p>
+  </div>
+</body>

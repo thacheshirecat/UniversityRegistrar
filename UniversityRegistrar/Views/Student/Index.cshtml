@@ -1,0 +1,23 @@
+<head>
+    <title>Bork University</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Bork University Registrar</h1>
+    <h2>Student Records</h2>
+    <ol>
+      @foreach(var student in @Model)
+      {
+        <li>@student.GetName() | Date Enrolled: @student.GetEnrollment() | <a href="/Students/@student.GetId()/View">Courses</a></li>
+      }
+    </ol>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p><a href="/Students/Add">Add Student</a></p>
+    <p><a href="/">Home</a></p>
+  </div>
+</body>
